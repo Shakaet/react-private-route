@@ -1,17 +1,44 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from './Provider/AuthProvider';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, sendPasswordResetEmail, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase.init';
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
+
 
 const Login = () => {
 
       
       let {signInUser,handleGoogleSignIn}= useContext(AuthContext)
 
+      let[toggle,setToggle]= useState(false)
+
+
+      let tooglebtn=()=>{
+
+        setToggle(!toggle)
+      }
+
+
+      let em= useRef()
+
 
     let link= useNavigate()
   //   const provider = new GoogleAuthProvider();
+
+  let handleForget=()=>{
+
+     let email=em.current.value
+    sendPasswordResetEmail(auth, email)
+  .then(() => {
+    console.log("mail sent")
+  })
+  .catch((error) => {
+    console.log(error)
+    
+  });
+  }
 
   
   let handleGoogleSignInB=()=>{
@@ -57,15 +84,16 @@ const Login = () => {
           <label className="label">
             <span className="label-text">Email</span>
           </label>
-          <input type="email"name='email' placeholder="email" className="input input-bordered" required />
+          <input ref={em} type="email"name='email' placeholder="email" className="input input-bordered" required />
         </div>
         <div className="form-control">
           <label className="label">
             <span className="label-text">Password</span>
           </label>
-          <input type="password" name='password' placeholder="password" className="input input-bordered" required />
+          <input  type={toggle ?"text":"password"} name='password' placeholder="password" className="relative input input-bordered" required />
+          <button onClick={tooglebtn} className='relative -right-80 -top-8'>{toggle? <FaEyeSlash />:<FaEye />}</button>
           <label className="label">
-            <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+            <a onClick={handleForget} href="#" className="label-text-alt link link-hover">Forgot password?</a>
           </label>
         </div>
         <div className="form-control mt-6">
