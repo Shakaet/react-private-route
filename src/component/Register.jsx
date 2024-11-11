@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from './Provider/AuthProvider';
+import { updateProfile } from 'firebase/auth';
+import { auth } from '../firebase.init';
 
 const Register = () => {
 
@@ -26,11 +28,21 @@ const Register = () => {
             console.log(result.user)
             e.target.reset()
             link("/login")
-        })
-        .catch(error=>{
-            console.log(error)
-        })
 
+        updateProfile(auth.currentUser, {
+            displayName: name
+          }).then(() => {
+             alert("profile Update")
+          }).catch((error) => {
+            alert("profile Updated Error",error)
+          });
+  
+        })
+   
+    .catch((error) => {
+        console.log(error);
+    });
+          
 
     }
     return (
