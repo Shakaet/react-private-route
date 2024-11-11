@@ -16,6 +16,7 @@ const Login = () => {
     handleGoogleSignIn()
   .then((result) => {
      console.log(result.user)
+     link("/")
   }).catch((error) => {
     console.log(error)
   });
