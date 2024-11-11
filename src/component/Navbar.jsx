@@ -10,7 +10,8 @@ const Navbar = () => {
 
     
         
-        let {user,signOutUser}= useContext(AuthContext)
+      
+      let {user,signOutUser,setData,setUser}= useContext(AuthContext)
 
         let handlesignout =()=>{
 
@@ -18,6 +19,9 @@ const Navbar = () => {
 
             .then(()=>{
                 console.log("signOutSuccesfully")
+                setData('')
+                setUser('')
+
                 link2("/login")
 
 

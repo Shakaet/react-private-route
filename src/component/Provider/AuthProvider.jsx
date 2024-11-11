@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import React, { createContext, useEffect, useState } from 'react';
 import { auth } from '../../firebase.init';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext(null);
 
@@ -13,13 +14,22 @@ export const AuthContext = createContext(null);
 
 const AuthProvider = ({children}) => {
 
+// googleSignInData
+  let [data,setData]=useState(null)
+
+ 
+ 
+
   const provider = new GoogleAuthProvider();
 
-
-
+        
   let handleGoogleSignIn=()=>{
 
     return signInWithPopup(auth, provider)
+    .then(result=>{
+      setData(result.user)
+      console.log(result.user)
+    })
   }
 
     let[user,setUser]= useState(null)
@@ -55,7 +65,7 @@ const AuthProvider = ({children}) => {
             console.log(currentUser)
             setUser(currentUser)
             setLoading(false)
-            
+
             // if (currentUser) {
             //     console.log(currentUser)
             //     setUser(currentUser)
@@ -88,7 +98,11 @@ const AuthProvider = ({children}) => {
         signInUser,
         signOutUser,
         loading,
-      handleGoogleSignIn
+      handleGoogleSignIn,
+      setData,
+      data,
+      setUser
+
 
  
 
