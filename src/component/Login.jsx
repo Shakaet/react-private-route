@@ -10,7 +10,8 @@ import { FaEyeSlash } from "react-icons/fa";
 const Login = () => {
 
       
-      let {signInUser,handleGoogleSignIn}= useContext(AuthContext)
+      
+      let {signInUser,handleGoogleSignIn,handleGithubLogin}= useContext(AuthContext)
 
       let[toggle,setToggle]= useState(false)
 
@@ -38,6 +39,16 @@ const Login = () => {
     console.log(error)
     
   });
+  }
+
+  let handleGithub=()=>{
+    handleGithubLogin()
+    .then((result) => {
+      console.log(result)
+      link("/")
+
+    })
+
   }
 
   
@@ -103,6 +114,7 @@ const Login = () => {
         
       </form>
       <button onClick={handleGoogleSignInB} className='btn btn-warning'>Google</button>
+      <button onClick={handleGithub} className='btn btn-error mt-5'>Github</button>
 
      
     </div>
